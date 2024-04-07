@@ -2,18 +2,18 @@
 def game():
    from math import fabs,sqrt
    
-   hw=float(input("Nikes gipedouxou :"))
-   hd=float(input("isopalies gipedouxou :"))
-   hl=float(input("Ittes gipedouxou :"))
+   hw=float(input("Home team wins :"))
+   hd=float(input("Home team draws :"))
+   hl=float(input("Home team defeats :"))
            
-   aw=float(input("Nikes filoksenumenu :"))
-   ad=float(input("isopalies filoksenumenu :")) 
-   al=float(input("ittes filoksenumenu :"))
+   aw=float(input("Away team wins :"))
+   ad=float(input("Away team draws :")) 
+   al=float(input("Away team defeats :"))
    
    m1 = hw + hd + hl
    m2 = aw + ad + al
 
-   #Υπολογισμός Συχνότητας Νίκης/Ισοπαλίας/Ήττας
+   #Win/Die/Loss Frequency Calculation
    SixnotitaNikisHome = hw / m1
    SixnotitaIsopaliasHome = hd / m1
    SixnotitaIttasHome = hl / m1
@@ -21,19 +21,19 @@ def game():
    SixnotitaIsopaliasAway = ad / m2
    SixnotitaIttasAway = al / m2
 
-   #Μέσος όρος
-   MesosOrosHome = (3*hw + 1*hd + 0*hl)/m1 #Βαθμοί που κερδίζεις ανάλογα το αποτέλεσμα
+   #Average
+   MesosOrosHome = (3*hw + 1*hd + 0*hl)/m1 #Points you earn depending on the result
    MesosOrosAway = (3*aw + 1*ad + 0*al)/m2
 
-   #Διακύμανση ή Διασπορά
+   #Variance or Dispersion
    s2home = (hw * (3 - MesosOrosHome)**2 + hw * (1 - MesosOrosHome)**2 + hw * MesosOrosHome**2)/m1
    s2away = (aw * (3 - MesosOrosAway)**2 + aw * (1 - MesosOrosAway)**2 + aw * MesosOrosAway**2)/m2 
  
-   #Τυπική Απόλιση - Πόσο σταθερή είναι η ομάδα
+   #Standard Deviation - How stable the group is
    shome = sqrt(s2home)
    saway = sqrt(s2away)
     
-   #Μετατρέπω τα σε ποσοστά
+   #I convert them to percentages
    hw = (hw*100)/(m1)
    hd = (hd*100)/(m1)
    hl = (hl*100)/(m1)
@@ -42,11 +42,11 @@ def game():
    ad = (ad*100)/(m2)
    al = (al*100)/(m2)
 
-   #Υπολογισμός των Αρχικών Ποσοστών Σύμφωνα Με την Αγωνιστική Κατάσταση των Ομάδων
+   #Calculation of the Initial Percentages According to the Competitive Status of the Teams
    i=1
    while i < 6:
-      Apotg =input("Pente teleftaia match gipedouxou (w for win/d for draw/l for loose):")
-      last_op = int(input("Ti vathmologiki thesi eixe o antipalos sou? : "))
+      Apotg =input("Home team's last five matches (w for win / d for draw / l for loss):")
+      last_op = int(input("What was your opponent's ranking? : "))
 
       if Apotg != 'w' and Apotg != 'd' and Apotg != 'l' :
           continue
@@ -71,8 +71,8 @@ def game():
    i=1
    while i < 6 :
 
-     Apotf = input("Pente teleftaia match filoksenoumenou (w for win/d for draw/l for loose):")
-     last_op = int(input("Ti vathmologiki thesi eixe o antipalos sou? : "))
+     Apotf = input("The away team's last five matches (w for win / d for draw / l for loss):")
+     last_op = int(input("What was your opponent's ranking? : "))
 
      if Apotf != 'w' and Apotf != 'd' and Apotf != 'l' :
       continue
@@ -98,7 +98,7 @@ def game():
    i=1
    while i < 4:
 
-     Apot3 = input("tria teleftaia metaksi tous match(h for HomeWin/d for draw/a for AwayWin) :")
+     Apot3 = input("Last three games between them(h for Home Win/d for draw/a for Away Win) :")
 
      if Apot3 != 'h' and Apot3 != 'd' and Apot3 != 'a' :
        continue
@@ -130,7 +130,7 @@ def game():
        hd=hd+5
        i=i+1 
 
-   ask1 = input("Write yes an o gipedouxos exei dinati edra :")
+   ask1 = input("Write yes if the home team has a strong home base :")
    if ask1 == "yes":
        aw=aw-10
        hw=hw+5
@@ -139,34 +139,37 @@ def game():
        ad=ad+5
        hd=hd+5
 
-   # Μέσο Όρο Πιθανοτήτων
+   # Average Probability
    MOP1 = (hw + al)/2
    MOPd = (hd + ad)/2
    MOP2 = (hl + aw)/2
-   # Φαβορί
+   # Favorite
    F1 = ((hw + al)**2) / (((hw + al)**2) + ((hd + ad)**2) + ((hl + aw)**2))
    Fd = ((hd + ad)**2) / (((hw + al)**2) + ((hd + ad)**2) + ((hl + aw)**2))
    F2 = ((hl + aw)**2) / (((hw + al)**2) + ((hd + ad)**2) + ((hl + aw)**2))
-   # Συντελεστής Αναλογίας Φαβορί
+   # Favorite Ratio Coefficient
    SAF1 = fabs(F1 - (Fd+F2))
    SAFd = fabs(Fd - (F1-F2))
    SAF2 = fabs(F2 - (Fd+F1))
-   # Κατανομή
+   # Allocation
    Kat1 = (F1*SAF1)+(MOP1*(100-SAF1))
    Katd = (Fd*SAFd)+(MOPd*(100-SAFd))
    Kat2 = (F2*SAF2)+(MOP2*(100-SAF2))
-   #Τελική κατανομή πιθανοτήτων
+   # Final probability distribution
    TelKat1 = Kat1 *100/ ( Kat1+Katd+Kat2)
    TelKatd = Katd *100/ ( Kat1+Katd+Kat2)
    TelKat2 = Kat2 *100/ ( Kat1+Katd+Kat2)
-   #Υπολογισμός Αποδόσεων
+   # Calculation of Returns
    Apodosi1 = fabs(100 / TelKat1)
    Apodosid = fabs(100 / TelKatd)
    Apodosi2 = fabs(100 / TelKat2)
 
-   print("\nWinHome :{}\nDraw :{}\nWinAway :{}\n".format((TelKat1+33.33)/2,(TelKatd+33.33)/2,(TelKat2+33.33)/2))
-   print("ApodosiAssou :{}\nApodosiIsopoalias :{}\nApodosiDiplou :{} ".format(Apodosi1,Apodosid,Apodosi2))
-   print("SixnotitaNikisHome :{}\tSixnotitaIsopaliasHome :{}\tSixnotitaIttasHome: {}".format(SixnotitaNikisHome*100,SixnotitaIsopaliasHome*100,SixnotitaIttasHome*100))
-   print("SixnotitaNikisAway :{}\tSixnotitaIsopaliasHome :{}\tSixnotitaIttasAway :{} ".format(SixnotitaNikisAway*100,SixnotitaIsopaliasAway*100,SixnotitaIttasAway*100))
-   print("MesosOrosHome :{}\tMesosOrosAway :{}".format(MesosOrosHome,MesosOrosAway))
-   print("ApoklisiHome :{}\tApoklisiAway :{}".format(shome,saway))
+   #(TelKat1+33.33)/2,(TelKatd+33.33)/2,(TelKat2+33.33)/2)
+
+   print("\nWin Home :{}\nDraw :{}\nWin Away :{}\n".format(TelKat1,TelKatd,TelKat2))
+   print("Home win odd :{}\nDraw Odd :{}\nAway win odd :{} ".format(Apodosi1,Apodosid,Apodosi2))
+   print("Home win frequency :{}\tHome draw frequency :{}\tHome defeat frequency : {}".format(SixnotitaNikisHome*100,SixnotitaIsopaliasHome*100,SixnotitaIttasHome*100))
+   print("Away win frequency :{}\tAway draw frequency :{}\tAway defeat frequency :{} ".format(SixnotitaNikisAway*100,SixnotitaIsopaliasAway*100,SixnotitaIttasAway*100))
+   print("Home average :{}\tAway average :{}".format(MesosOrosHome,MesosOrosAway))
+   print("Home Standard Deviation :{}\tAway Standard Deviation :{}".format(shome,saway))
+
